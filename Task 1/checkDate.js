@@ -1,12 +1,12 @@
 function checkDate(timestamp) {
-    var day = new Date(timestamp).getDate();
-    var month = new Date(timestamp).getMonth();
-    var year = new Date(timestamp).getFullYear();
-    var hour = new Date(timestamp).getHours();
+    var day = new Date(timestamp * 1000).getDate();
+    var month = new Date(timestamp * 1000).getMonth();
+    var year = new Date(timestamp * 1000).getFullYear();
+    var hour = new Date(timestamp * 1000).getHours();
 
     const current_Date = new Date(Date.now());
     const current_day = current_Date.getDate();
-    const current_month = current_Date.getMonth();
+    const current_month = current_Date.getMonth() + 1;
     const currentYear = current_Date.getFullYear();
 
     let isSameDate = false;
