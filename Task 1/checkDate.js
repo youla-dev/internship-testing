@@ -11,6 +11,8 @@ function checkDate(timestamp) {
 
     let isSameDate = false;
 
+
+    // hello
     if (year == currentYear) {
         if (month == current_month) {
             if (day == current_day) {
