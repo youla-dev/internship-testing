@@ -1,28 +1,49 @@
 function checkDate(timestamp) {
-    var day = new Date(timestamp * 1000).getDate();
-    var month = new Date(timestamp * 1000).getMonth();
-    var year = new Date(timestamp * 1000).getFullYear();
-    var hour = new Date(timestamp * 1000).getHours();
+    //Сделал ограничение на тип параметра timestamp
 
-    const current_Date = new Date(Date.now());
-    const current_day = current_Date.getDate();
-    const current_month = current_Date.getMonth() + 1;
-    const currentYear = current_Date.getFullYear();
-
-    let isSameDate = false;
-
-    if (year == currentYear) {
-        if (month == current_month) {
-            if (day == current_day) {
-                isSameDate = true;
-            } else {
-                isSameDate = false;
-            }
-        }
+    if (typeof timestamp !== "number") {
+        throw new Error("expected number");
     }
+
+    // Заменил ключевое слово var на const, потому что var - устаревший способ обявления переменных,
+    // и значения переменных не будут изменяться
+
+    // Использовал вместо многочисленных вызовов методов для получения отдельных компонентов даты
+    // метод toLocaleDateString с соответствующими опциями
+    // Это решение вносит большей читаемости кода
+
+    const LOCALE_CODE = "en-US";
+
+    const DATE_OPTIONS = {
+        day: "numeric",
+        month: "numeric",
+        year: "numeric",
+    };
+
+    const date = new Date(timestamp * 1000);
+    const hours = date.getHours();
+    const localeDate = date.toLocaleDateString(LOCALE_CODE, DATE_OPTIONS);
+
+    //Избавился от конструкции new Date(Date.now()), так как такая конструкция бессмысленна
+
+    const currentDate = new Date();
+    const currentLocaleDate = currentDate.toLocaleDateString(
+        LOCALE_CODE,
+        DATE_OPTIONS
+    );
+
+    //Избавился от конструкции if для большей читаемости логического выражения
+
+    const isSameDate = localeDate === currentLocaleDate;
+
+    //pm начинается с 12 часов
+
+    const dayPeriod = hours >= 12 ? "pm" : "am";
+
+    //Вынес логику за пределы return
 
     return {
-        isSameDate: isSameDate,
-        dayPeriod: hour > 11 ? 'pm' : 'am'
-    }
+        isSameDate,
+        dayPeriod,
+    };
 }
